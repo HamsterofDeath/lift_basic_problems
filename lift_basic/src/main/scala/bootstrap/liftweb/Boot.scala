@@ -3,13 +3,13 @@ package bootstrap.liftweb
 import net.liftweb._
 import util._
 import Helpers._
-
 import common._
 import http._
 import js.jquery.JQueryArtifacts
 import sitemap._
 import Loc._
 import mapper._
+import net.liftweb.http.ContentSourceRestriction.All
 
 import code.model._
 import net.liftmodules.JQueryModule
@@ -24,7 +24,7 @@ class Boot {
     if (!DB.jndiJdbcConnAvailable_?) {
       sys.props.put("h2.implicitRelativePath", "true")
       val vendor = new StandardDBVendor(Props.get("db.driver") openOr "org.h2.Driver",
-			     Props.get("db.url") openOr 
+			     Props.get("db.url") openOr
 			     "jdbc:h2:lift_proto.db;AUTO_SERVER=TRUE",
 			     Props.get("db.user"), Props.get("db.password"))
 
@@ -47,7 +47,7 @@ class Boot {
 
       // more complex because this menu allows anything in the
       // /static path to be visible
-      Menu(Loc("Static", Link(List("static"), true, "/static/index"), 
+      Menu(Loc("Static", Link(List("static"), true, "/static/index"),
 	       "Static Content")))
 
     def sitemapMutators = User.sitemapMutator
@@ -64,7 +64,7 @@ class Boot {
     //Show the spinny image when an Ajax call starts
     LiftRules.ajaxStart =
       Full(() => LiftRules.jsArtifacts.show("ajax-loader").cmd)
-    
+
     // Make the spinny image go away when it ends
     LiftRules.ajaxEnd =
       Full(() => LiftRules.jsArtifacts.hide("ajax-loader").cmd)
@@ -75,20 +75,13 @@ class Boot {
     // What is the function to test if a user is logged in?
     LiftRules.loggedInTest = Full(() => User.loggedIn_?)
 
+    LiftRules.unusedFunctionsLifeTime = 10.seconds
+    LiftRules.liftGCPollingInterval = 5.seconds
+
     // Use HTML5 for rendering
     LiftRules.htmlProperties.default.set((r: Req) =>
-      new Html5Properties(r.userAgent))    
+      new Html5Properties(r.userAgent))
 
-    //Lift CSP settings see http://content-security-policy.com/ and 
-    //Lift API for more information.  
-    LiftRules.securityRules = () => {
-      SecurityRules(content = Some(ContentSecurityPolicy(           
-        scriptSources = List(
-            ContentSourceRestriction.Self),   
-        styleSources = List(
-            ContentSourceRestriction.Self)
-            )))
-    }      
     // Make a transaction span the whole HTTP request
     S.addAround(DB.buildLoanWrapper)
   }

@@ -1,17 +1,26 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
     <title>Home</title>
-  </head>
-  <body data-lift-content-id="main">
-    <div id="main" data-lift="surround?with=default;at=content">
-      <h2>Welcome to your project!</h2>
-      <p>
-      	<span data-lift="HelloWorld.howdy">
-      	  Welcome to your Lift app at <span id="time">Time goes here</span>
-      	</span>
-      </p>
+</head>
+<body data-lift-content-id="main">
+<div id="main" data-lift="surround?with=default;at=content">
+    <h2>Welcome to your project!</h2>
+    <div>
+        <div data-lift="HelloWorld.howdy">
+            Welcome to your Lift app at <span id="time">Time goes here</span>
+            <div>
+                <span>this is the working ajax button</span>
+                <span id="workingAjax"></span>
+            </div>
+            <div>
+                <span>this is the broken ajax button</span>
+                <span id="brokenAjax"></span>
+            </div>
+        </div>
+
+        </p>
     </div>
-  </body>
+</body>
 </html>
