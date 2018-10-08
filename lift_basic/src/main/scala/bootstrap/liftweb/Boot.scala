@@ -3,13 +3,13 @@ package bootstrap.liftweb
 import net.liftweb._
 import util._
 import Helpers._
+
 import common._
 import http._
 import js.jquery.JQueryArtifacts
 import sitemap._
 import Loc._
 import mapper._
-import net.liftweb.http.ContentSourceRestriction.All
 
 import code.model._
 import net.liftmodules.JQueryModule
@@ -82,6 +82,16 @@ class Boot {
     LiftRules.htmlProperties.default.set((r: Req) =>
       new Html5Properties(r.userAgent))
 
+    //Lift CSP settings see http://content-security-policy.com/ and
+    //Lift API for more information.
+    LiftRules.securityRules = () => {
+      SecurityRules(content = Some(ContentSecurityPolicy(
+        scriptSources = List(
+            ContentSourceRestriction.Self),
+        styleSources = List(
+            ContentSourceRestriction.Self)
+            )))
+    }
     // Make a transaction span the whole HTTP request
     S.addAround(DB.buildLoanWrapper)
   }

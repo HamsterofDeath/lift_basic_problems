@@ -6,6 +6,11 @@
 </head>
 <body data-lift-content-id="main">
 <div id="main" data-lift="surround?with=default;at=content">
+    <script type="text/javascript">
+        function bypasser(text) {
+            document.getElementById("indirectWorkingAjax").innerHTML = text
+        }
+    </script>
     <h2>Welcome to your project!</h2>
     <div>
         <div data-lift="HelloWorld.howdy">
@@ -15,12 +20,15 @@
                 <span id="workingAjax"></span>
             </div>
             <div>
+                <span>this is the not yet broken ajax button</span>
+                <span id="indirectWorkingAjax"></span>
+            </div>
+            <div>
                 <span>this is the broken ajax button</span>
                 <span id="brokenAjax"></span>
             </div>
         </div>
-
-        </p>
     </div>
+</div>
 </body>
 </html>
